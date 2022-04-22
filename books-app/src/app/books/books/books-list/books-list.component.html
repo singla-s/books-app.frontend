@@ -1,0 +1,17 @@
+<h3>{{ title }}</h3>
+<table width="100%">
+  <tr>
+    <td>Book Id</td>
+    <td>Titel</td>
+    <td>Price</td>
+    <td>Author</td>
+    <td>Release Date</td>
+  </tr>
+  <tr *ngFor="let book of books">
+    <td>{{ book.id }}</td>
+    <td>{{ book.title }}</td>
+    <td>{{ book.price | currency: "INR" }}</td>
+    <td>{{ book.author }}</td>
+    <td>{{ book.releaseDate | date: "dd-MMM-yyyy" }}</td>
+  </tr>
+</table>
