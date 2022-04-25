@@ -42,12 +42,11 @@ export class BooksComponent implements OnInit {
       this.processNotification(bookObj);
     });
     this.booksService.getAllBooks().subscribe((books) => {
-      this.books = [...this.books, ...books];
-      console.log(books);
+      this.books = books;
     });
   }
 
-  private processNotification(book: Book) {
-    setTimeout(() => this.books.push(book), 2000);
+  private processNotification(book: string) {
+    this.booksData = book;
   }
 }
