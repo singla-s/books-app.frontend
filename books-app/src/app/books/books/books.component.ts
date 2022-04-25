@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
-import { connect } from 'http2';
 import { BooksService } from 'src/app/services/books.service';
+import { SignalrService } from 'src/app/services/signalr.service';
 import { Book } from './../interfaces/book.interface';
 
 @Component({
@@ -15,17 +15,14 @@ export class BooksComponent implements OnInit {
 
   booksData: any;
 
-  constructor(private booksService: BooksService) {}
+  constructor(
+    private booksService: BooksService,
+    private signalRService: SignalrService
+  ) {}
 
   ngOnInit(): void {
     this.title = 'Books Component';
-    let connection = new signalR.HubConnectionBuilder()
-      .configureLogging(signalR.LogLevel.Debug)
-      .withUrl('https://localhost:5001/booksHub', {
-        skipNegotiation: true,
-        transport: signalR.HttpTransportType.WebSockets,
-      })
-      .build();
+    let connection = this.signalRService.getSignalRConnection();
 
     connection
       .start()
@@ -45,12 +42,12 @@ export class BooksComponent implements OnInit {
       this.processNotification(bookObj);
     });
     this.booksService.getAllBooks().subscribe((books) => {
-      this.books = books;
+      this.books = [...this.books, ...books];
       console.log(books);
     });
   }
 
   private processNotification(book: Book) {
-    this.booksData = book;
+    this.books.push(book);
   }
 }

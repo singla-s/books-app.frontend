@@ -7,7 +7,7 @@ import * as signalR from '@aspnet/signalr';
 export class SignalrService {
   constructor() {}
 
-  public signalRConnect(): void {
+  public getSignalRConnection(): signalR.HubConnection {
     let connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Debug)
       .withUrl('https://localhost:5001/booksHub', {
@@ -16,18 +16,6 @@ export class SignalrService {
       })
       .build();
 
-    connection
-      .start()
-      .then(() => {
-        console.log('signalR connected!');
-        connection
-          .invoke('subscribeToNewBookRelease', 'testuser', 'newBook')
-          .catch((err) => {
-            return console.error(err.toString());
-          });
-      })
-      .catch((err) => {
-        return console.error(err.toString());
-      });
+    return connection;
   }
 }
