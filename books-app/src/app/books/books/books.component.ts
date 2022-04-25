@@ -48,6 +48,6 @@ export class BooksComponent implements OnInit {
   }
 
   private processNotification(book: Book) {
-    this.books.push(book);
+    setTimeout(() => this.books.push(book), 2000);
   }
 }
